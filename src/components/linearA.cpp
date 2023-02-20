@@ -1,5 +1,9 @@
 #include "linearA.h"
 
+Vec4::Vec4() {
+	this->x = this->y = this->z = this->w = 0.0f;
+}
+
 Vec4::Vec4(float x, float y, float z, float w) {
 	this->x = x;
 	this->y = y;
@@ -110,7 +114,7 @@ Vec4 Vec4::operator*=(float a) {
 	return *this;
 }
 
-float Vec4::operator[](int i) {
+float& Vec4::operator[](int i) {
 	switch (i) {
 		case 0:
 			return this->x;
@@ -124,4 +128,58 @@ float Vec4::operator[](int i) {
 			throw std::out_of_range("Number is out of range (range is from 0-3)\n");
 			break;
 	}
+}
+
+//Matrices
+Mat4::Mat4() {
+	for (int i = 0; i < 4; i++) {
+		std::vector<float> line;
+		for (int j = 0; j < 4; j++)
+			line.push_back(0);
+
+		this->matrix.push_back(line);
+	}
+}
+
+Mat4::Mat4(Vec4 a[4]) {
+	for (int i = 0; i < 4; i++) {
+		std::vector<float> line;
+		for (int j = 0; j < 4; j++)
+			line.push_back(a[i][j]);
+
+		this->matrix.push_back(line);
+	}
+}
+
+Mat4::Mat4(std::vector<Vec4> a) {
+	for (int i = 0; i < 4; i++) {
+		std::vector<float> line;
+		for (int j = 0; j < 4; j++)
+			line.push_back(a[i][j]);
+
+		this->matrix.push_back(line);
+	}
+}
+
+Vec4 Mat4::operator*(Vec4 a) {
+	Vec4 result(0, 0, 0, 0);
+
+	for (int i = 0; i < 4; i++)
+		for (int j = 0; j < 4; j++)
+			result[i] += this->matrix[i][j] * a[j];
+
+	return result;
+}
+
+std::vector<float>& Mat4::operator[](int i) {
+	return this->matrix[i];
+}
+
+void Mat4::makeIdentity() {
+	for (int i = 0; i < 4; i++)
+		for (int j = 0; j < 4; j++)
+			if (j == i)
+				this->matrix[i][j] = 1;
+			else
+				this->matrix[i][j] = 0;
 }

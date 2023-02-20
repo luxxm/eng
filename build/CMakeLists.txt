@@ -7,4 +7,4 @@ set(LINEARA ${PROJECT_SOURCE_DIR}/components/linearA.h ${PROJECT_SOURCE_DIR}/com
 
 set(SOURCES ${PROJECT_SOURCE_DIR}/main.cpp ${LINEARA})
 
-add_executable(eng.o ${SOURCES})
+add_executable(eng ${SOURCES})
