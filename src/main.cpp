@@ -2,23 +2,36 @@
 #include "components/linearA.h"
 
 int main() {
-	Vec4 vector1(5.23, 3.41, 12.0, 4.44);
-	Mat4 matrix1;
-	matrix1.makeIdentity();
+	Mat4 m1;
+	Mat4 m2;
 
-	matrix1[0][3] = 1;
-	
-	Vec4 result = matrix1*vector1;
+	for (int i = 0; i < 4; i++)
+		for (int j = 0; j < 4;  j++) {
+			m1[i][j] = (j+1)/(i+1)*2.0+3;
+			m2[i][j] = (i+1)*(j+1)/2 + 4.1;
+		}
+
+	Mat4 result = m1*m2;
 
 	for (int i = 0; i < 4; i++) {
-		std::cout << "|";
 		for (int j = 0; j < 4; j++)
-			if (j < 3)
-				std::cout << matrix1[i][j] << " ";
-			else 
-				std::cout << matrix1[i][j];
-		std::cout << "|" << std::endl;
+			std::cout << m1[i][j] << ", ";
+		std::cout << std::endl;
 	}
 
-	std::cout << result << std::endl;
+	std::cout << std::endl;
+
+	for (int i = 0; i < 4; i++) {
+		for (int j = 0; j < 4; j++)
+			std::cout << m2[i][j] << ", ";
+		std::cout << std::endl;
+	}
+
+	std::cout << std::endl;
+
+	for (int i = 0; i < 4; i++) {
+		for (int j = 0; j < 4; j++)
+			std::cout << result[i][j] << ", ";
+		std::cout << std::endl;
+	}
 }

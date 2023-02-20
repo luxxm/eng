@@ -171,6 +171,17 @@ Vec4 Mat4::operator*(Vec4 a) {
 	return result;
 }
 
+Mat4 Mat4::operator*(Mat4 a) {
+	Mat4 result;
+
+	for (int i = 0; i < 4; i++)
+		for (int j = 0; j < 4; j++)
+			for (int k = 0; k < 4; k++)
+				result[i][j] += this->matrix[i][k] * a[k][j];
+
+	return result;
+}
+
 std::vector<float>& Mat4::operator[](int i) {
 	return this->matrix[i];
 }
