@@ -1,8 +1,8 @@
+#pragma once
+
 #include <ostream>
 #include <stdexcept>
 #include <vector>
-
-#pragma once
 
 struct Vec4 {
 	float x, y, z, w ;
@@ -30,7 +30,11 @@ struct Vec4 {
 	friend auto operator<<(std::ostream& os, Vec4 const& a) -> std::ostream& {
 		return os << "(" << a.x << ", " << a.y << ", " << a.z << ", " << a.w << ")";
 	}
+
+	Vec4 invert();
 };
+
+typedef Vec4 Vertex;
 
 class Mat4 {
 	std::vector<std::vector<float>> matrix;
@@ -44,5 +48,5 @@ public:
 
 	std::vector<float>& operator[](int i);
 
-	void makeIdentity();
+	Mat4 makeIdentity();
 };

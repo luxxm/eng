@@ -130,6 +130,10 @@ float& Vec4::operator[](int i) {
 	}
 }
 
+Vec4 Vec4::invert() {
+	return Vec4(this->x * -1, this->y * -1, this->z * -1, this->w * -1);
+}
+
 //Matrices
 Mat4::Mat4() {
 	for (int i = 0; i < 4; i++) {
@@ -186,11 +190,13 @@ std::vector<float>& Mat4::operator[](int i) {
 	return this->matrix[i];
 }
 
-void Mat4::makeIdentity() {
+Mat4 Mat4::makeIdentity() {
 	for (int i = 0; i < 4; i++)
 		for (int j = 0; j < 4; j++)
 			if (j == i)
 				this->matrix[i][j] = 1;
 			else
 				this->matrix[i][j] = 0;
+
+	return *this;
 }
