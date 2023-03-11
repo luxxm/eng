@@ -4,8 +4,10 @@
 int main() {
 	Cube cube;
 
-	for (Point i : cube.points)
-		std::cout << i.vertex << std::endl;
+	cube.setPosition(5, 11, 9.2);
+
+	for (int i = 0; i < cube.points.size(); i++)
+		std::cout << cube.getTPoint(i).vertex << std::endl;
 
 	return 0;
 }

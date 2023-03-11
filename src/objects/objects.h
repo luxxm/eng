@@ -20,6 +20,10 @@ public:
 	Mat4 objectMatrix = Mat4().makeIdentity();
 	Vec4 position;
 	Vec4 size;
+
+	Point getTPoint(int id);
+
+	Mat4* setTranslationMatrix();
 };
 
 class Cube : public gameObject {
@@ -31,4 +35,7 @@ public:
 	Cube(std::vector<Vertex> vertices);
 	Cube(Vertex vertices[8]);
 	Cube(std::vector<Point> points);
+
+	Vec4* setPosition(float x, float y, float z);
+	Vec4* setPosition(Vec4 pos);
 };

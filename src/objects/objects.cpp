@@ -1,5 +1,18 @@
 #include "objects.h"
 
+Point gameObject::getTPoint(int id) {
+	Point tPoint = this->points[id];
+	tPoint.vertex = this->objectMatrix * this->points[id].vertex;
+	return tPoint;
+}
+
+Mat4* gameObject::setTranslationMatrix() {
+	for (int i = 0; i < 3; i++)
+		this->objectMatrix[i][3] = this->position[i];
+
+	return &this->objectMatrix;
+}
+
 void Cube::setPoints() {
 	int i = 0;
 	Vertex nextVertex(0, 0, 0, 0);
@@ -65,4 +78,18 @@ Cube::Cube(Vertex vertices[8]) {
 Cube::Cube(std::vector<Point> points) {
 	for (Point i : points)
 		this->points.push_back(i);
+}
+
+Vec4* Cube::setPosition(float x, float y, float z) {
+	this->position = Vec4(x, y, z, 1);
+	this->setTranslationMatrix();
+
+	return &this->position;
+}
+
+Vec4* Cube::setPosition(Vec4 pos) {
+	this->position = pos;
+	this->setTranslationMatrix();
+
+	return &this->position;
 }
