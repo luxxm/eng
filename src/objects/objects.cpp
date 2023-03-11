@@ -15,9 +15,38 @@ Mat4* gameObject::setScaleMatrix() {
 	return &this->scaleMat;
 }
 
+Mat4* gameObject::setRotationMatrix() {
+	//yaw * pitch * roll
+
+	//Pitch x
+	Mat4 pitch = Mat4().makeIdentity();
+	pitch[0][0] = cosf(this->rotation.x);
+	pitch[0][2] = sinf(this->rotation.x);
+	pitch[2][0] = -sinf(this->rotation.x);
+	pitch[2][2] = cosf(this->rotation.x);
+
+	//Yaw y
+	Mat4 yaw = Mat4().makeIdentity();
+	yaw[0][0] = cosf(this->rotation.y);
+	yaw[0][1] = -sinf(this->rotation.y);
+	yaw[1][0] = sinf(this->rotation.y);
+	yaw[1][1] = cosf(this->rotation.y);
+
+	//Roll z
+	Mat4 roll = Mat4().makeIdentity();
+	roll[1][1] = cosf(this->rotation.z);
+	roll[1][2] = -sinf(this->rotation.z);
+	roll[2][1] = sinf(this->rotation.z);
+	roll[2][2] = cosf(this->rotation.z);
+
+	this->rotationMat = (yaw*pitch)*roll;
+	
+	return &this->rotationMat;
+}
+
 //Public functions
 Mat4* gameObject::calcTranslationMat() {
-	this->objectMatrix = this->translationMat*this->scaleMat;
+	this->objectMatrix = this->translationMat*this->rotationMat*this->scaleMat;
 
 	return &this->objectMatrix;
 }
@@ -60,6 +89,22 @@ Vec4* gameObject::setScale(Vec4 size) {
 	return &this->size;
 }
 
+Vec4* gameObject::setRotation(float x, float y, float z) {
+	this->rotation = Vec4(x, y, z, 1);
+	this->setRotationMatrix();
+	this->calcTranslationMat();
+
+	return &this->rotation;
+}
+
+Vec4* gameObject::setRotation(Vec4 size) {
+	this->rotation = rotation;
+	this->setRotationMatrix();
+	this->calcTranslationMat();
+
+	return &this->rotation;
+}
+
 void Cube::setPoints() {
 	int i = 0;
 	Vertex nextVertex(0, 0, 0, 0);
@@ -99,8 +144,11 @@ void Cube::setPoints() {
 }
 
 Cube::Cube() {
-	this->position.x = this->position.y = this->position.z = this->position.w = 0;
-	this->size.x = this->size.y = this->size.z = this->size.w = 1;	
+	this->setPosition(0, 0, 0);
+	this->setScale(1, 1, 1);
+	this->setRotation(0, 0, 0);
+
+	this->calcTranslationMat();	
 
 	this->setPoints();
 }

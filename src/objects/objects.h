@@ -2,6 +2,7 @@
 
 #include "../components/linearA.h"
 #include <vector>
+#include <cmath>
 
 struct Point {
 	Vertex vertex;
@@ -22,12 +23,14 @@ private:
 
 	Mat4* setTranslationMatrix();
 	Mat4* setScaleMatrix();
+	Mat4* setRotationMatrix();
 public:
 	std::vector<Point> points;
 	Mat4 objectMatrix = Mat4().makeIdentity();
 
 	Vec4 position;
 	Vec4 size;
+	Vec4 rotation;
 
 	Mat4* calcTranslationMat();
 
@@ -37,6 +40,8 @@ public:
 	Vec4* setPosition(Vec4 pos);
 	Vec4* setScale(float x, float y, float z);
 	Vec4* setScale(Vec4 size);
+	Vec4* setRotation(float x, float y, float z);
+	Vec4* setRotation(Vec4 rot);
 };
 
 class Cube : public gameObject {
