@@ -15,15 +15,28 @@ struct Point {
 };
 
 class gameObject {
+private:
+	Mat4 translationMat = Mat4().makeIdentity();
+	Mat4 scaleMat = Mat4().makeIdentity();
+	Mat4 rotationMat = Mat4().makeIdentity();
+
+	Mat4* setTranslationMatrix();
+	Mat4* setScaleMatrix();
 public:
 	std::vector<Point> points;
 	Mat4 objectMatrix = Mat4().makeIdentity();
+
 	Vec4 position;
 	Vec4 size;
 
+	Mat4* calcTranslationMat();
+
 	Point getTPoint(int id);
 
-	Mat4* setTranslationMatrix();
+	Vec4* setPosition(float x, float y, float z);
+	Vec4* setPosition(Vec4 pos);
+	Vec4* setScale(float x, float y, float z);
+	Vec4* setScale(Vec4 size);
 };
 
 class Cube : public gameObject {
@@ -35,7 +48,4 @@ public:
 	Cube(std::vector<Vertex> vertices);
 	Cube(Vertex vertices[8]);
 	Cube(std::vector<Point> points);
-
-	Vec4* setPosition(float x, float y, float z);
-	Vec4* setPosition(Vec4 pos);
 };

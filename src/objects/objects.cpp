@@ -1,4 +1,26 @@
 #include "objects.h"
+//Private functions
+Mat4* gameObject::setTranslationMatrix() {
+	for (int i = 0; i < 3; i++)
+		this->translationMat[i][3] = this->position[i];
+
+	return &this->translationMat;
+}
+
+Mat4* gameObject::setScaleMatrix() {
+	this->scaleMat[0][0] = this->size.x;
+	this->scaleMat[1][1] = this->size.y;
+	this->scaleMat[2][2] = this->size.z;
+
+	return &this->scaleMat;
+}
+
+//Public functions
+Mat4* gameObject::calcTranslationMat() {
+	this->objectMatrix = this->translationMat*this->scaleMat;
+
+	return &this->objectMatrix;
+}
 
 Point gameObject::getTPoint(int id) {
 	Point tPoint = this->points[id];
@@ -6,11 +28,36 @@ Point gameObject::getTPoint(int id) {
 	return tPoint;
 }
 
-Mat4* gameObject::setTranslationMatrix() {
-	for (int i = 0; i < 3; i++)
-		this->objectMatrix[i][3] = this->position[i];
+Vec4* gameObject::setPosition(float x, float y, float z) {
+	this->position = Vec4(x, y, z, 1);
+	this->setTranslationMatrix();
+	this->calcTranslationMat();
 
-	return &this->objectMatrix;
+	return &this->position;
+}
+
+Vec4* gameObject::setPosition(Vec4 pos) {
+	this->position = pos;
+	this->setTranslationMatrix();
+	this->calcTranslationMat();
+
+	return &this->position;
+}
+
+Vec4* gameObject::setScale(float x, float y, float z) {
+	this->size = Vec4(x, y, z, 1);
+	this->setScaleMatrix();
+	this->calcTranslationMat();
+
+	return &this->size;
+}
+
+Vec4* gameObject::setScale(Vec4 size) {
+	this->size = size;
+	this->setScaleMatrix();
+	this->calcTranslationMat();
+
+	return &this->size;
 }
 
 void Cube::setPoints() {
@@ -78,18 +125,4 @@ Cube::Cube(Vertex vertices[8]) {
 Cube::Cube(std::vector<Point> points) {
 	for (Point i : points)
 		this->points.push_back(i);
-}
-
-Vec4* Cube::setPosition(float x, float y, float z) {
-	this->position = Vec4(x, y, z, 1);
-	this->setTranslationMatrix();
-
-	return &this->position;
-}
-
-Vec4* Cube::setPosition(Vec4 pos) {
-	this->position = pos;
-	this->setTranslationMatrix();
-
-	return &this->position;
 }
