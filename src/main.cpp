@@ -6,15 +6,7 @@ int main() {
 
 	cube.setPosition(2, 2, 2);
 	cube.setScale(1, 3, 3);
-	cube.setRotation(1, 1, 1);
-
-	for (int i = 0; i < 4; i++) {
-		std::cout << "|";
-		for (int j = 0; j < 4; j++)
-			std::cout << " 	 	" << cube.objectMatrix[i][j];
-		std::cout << " 	|";
-		std::cout << std::endl;
-	}
+	cube.setRotation(0, 90, 0);
 
 	for (int i = 0; i < cube.points.size(); i++) {
 		std::cout << "(";

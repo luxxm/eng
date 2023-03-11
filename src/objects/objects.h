@@ -4,6 +4,8 @@
 #include <vector>
 #include <cmath>
 
+#define RAD_U 57.29578
+
 struct Point {
 	Vertex vertex;
 	int number = 0;

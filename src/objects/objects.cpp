@@ -17,36 +17,40 @@ Mat4* gameObject::setScaleMatrix() {
 
 Mat4* gameObject::setRotationMatrix() {
 	//yaw * pitch * roll
+	Vec4 radRot = this->rotation;
+	radRot.x /= RAD_U;
+	radRot.y /= RAD_U;
+	radRot.z /= RAD_U;
 
 	//Pitch x
 	Mat4 pitch = Mat4().makeIdentity();
-	pitch[0][0] = cosf(this->rotation.x);
-	pitch[0][2] = sinf(this->rotation.x);
-	pitch[2][0] = -sinf(this->rotation.x);
-	pitch[2][2] = cosf(this->rotation.x);
+	pitch[0][0] = cos(radRot.x);
+	pitch[0][2] = -sin(radRot.x);
+	pitch[2][0] = sin(radRot.x);
+	pitch[2][2] = cos(radRot.x);
 
 	//Yaw y
 	Mat4 yaw = Mat4().makeIdentity();
-	yaw[0][0] = cosf(this->rotation.y);
-	yaw[0][1] = -sinf(this->rotation.y);
-	yaw[1][0] = sinf(this->rotation.y);
-	yaw[1][1] = cosf(this->rotation.y);
+	yaw[0][0] = cos(radRot.y);
+	yaw[0][1] = sin(radRot.y);
+	yaw[1][0] = -sin(radRot.y);
+	yaw[1][1] = cos(radRot.y);
 
 	//Roll z
 	Mat4 roll = Mat4().makeIdentity();
-	roll[1][1] = cosf(this->rotation.z);
-	roll[1][2] = -sinf(this->rotation.z);
-	roll[2][1] = sinf(this->rotation.z);
-	roll[2][2] = cosf(this->rotation.z);
+	roll[1][1] = cos(radRot.z);
+	roll[1][2] = sin(radRot.z);
+	roll[2][1] = -sin(radRot.z);
+	roll[2][2] = cos(radRot.z);
 
 	this->rotationMat = (yaw*pitch)*roll;
 	
-	return &this->rotationMat;
+return &this->rotationMat;
 }
 
 //Public functions
 Mat4* gameObject::calcTranslationMat() {
-	this->objectMatrix = this->translationMat*this->rotationMat*this->scaleMat;
+	this->objectMatrix = this->translationMat*(this->rotationMat*this->scaleMat);
 
 	return &this->objectMatrix;
 }
@@ -97,8 +101,8 @@ Vec4* gameObject::setRotation(float x, float y, float z) {
 	return &this->rotation;
 }
 
-Vec4* gameObject::setRotation(Vec4 size) {
-	this->rotation = rotation;
+Vec4* gameObject::setRotation(Vec4 rot) {
+	this->rotation = rot;
 	this->setRotationMatrix();
 	this->calcTranslationMat();
 
