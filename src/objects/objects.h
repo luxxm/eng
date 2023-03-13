@@ -34,7 +34,7 @@ public:
 	Vec4 size;
 	Vec4 rotation;
 
-	Mat4* calcTranslationMat();
+	Mat4* calcTransformationMat();
 
 	Point getTPoint(int id);
 

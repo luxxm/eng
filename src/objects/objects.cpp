@@ -49,7 +49,7 @@ return &this->rotationMat;
 }
 
 //Public functions
-Mat4* gameObject::calcTranslationMat() {
+Mat4* gameObject::calcTransformationMat() {
 	this->objectMatrix = this->translationMat*(this->rotationMat*this->scaleMat);
 
 	return &this->objectMatrix;
@@ -64,7 +64,7 @@ Point gameObject::getTPoint(int id) {
 Vec4* gameObject::setPosition(float x, float y, float z) {
 	this->position = Vec4(x, y, z, 1);
 	this->setTranslationMatrix();
-	this->calcTranslationMat();
+	this->calcTransformationMat();
 
 	return &this->position;
 }
@@ -72,7 +72,7 @@ Vec4* gameObject::setPosition(float x, float y, float z) {
 Vec4* gameObject::setPosition(Vec4 pos) {
 	this->position = pos;
 	this->setTranslationMatrix();
-	this->calcTranslationMat();
+	this->calcTransformationMat();
 
 	return &this->position;
 }
@@ -80,7 +80,7 @@ Vec4* gameObject::setPosition(Vec4 pos) {
 Vec4* gameObject::setScale(float x, float y, float z) {
 	this->size = Vec4(x, y, z, 1);
 	this->setScaleMatrix();
-	this->calcTranslationMat();
+	this->calcTransformationMat();
 
 	return &this->size;
 }
@@ -88,7 +88,7 @@ Vec4* gameObject::setScale(float x, float y, float z) {
 Vec4* gameObject::setScale(Vec4 size) {
 	this->size = size;
 	this->setScaleMatrix();
-	this->calcTranslationMat();
+	this->calcTransformationMat();
 
 	return &this->size;
 }
@@ -96,7 +96,7 @@ Vec4* gameObject::setScale(Vec4 size) {
 Vec4* gameObject::setRotation(float x, float y, float z) {
 	this->rotation = Vec4(x, y, z, 1);
 	this->setRotationMatrix();
-	this->calcTranslationMat();
+	this->calcTransformationMat();
 
 	return &this->rotation;
 }
@@ -104,7 +104,7 @@ Vec4* gameObject::setRotation(float x, float y, float z) {
 Vec4* gameObject::setRotation(Vec4 rot) {
 	this->rotation = rot;
 	this->setRotationMatrix();
-	this->calcTranslationMat();
+	this->calcTransformationMat();
 
 	return &this->rotation;
 }
@@ -152,7 +152,7 @@ Cube::Cube() {
 	this->setScale(1, 1, 1);
 	this->setRotation(0, 0, 0);
 
-	this->calcTranslationMat();	
+	this->calcTransformationMat();	
 
 	this->setPoints();
 }
